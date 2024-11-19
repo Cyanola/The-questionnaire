@@ -1,0 +1,17 @@
+{% extends "polls/base.html" %}
+
+{% block content %}
+<h1 class="text-center">Список вопросов</h1>
+<div class="row mt-4">
+    {% for question in latest_question_list %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{ question.question_text }}</h5>
+                    <a href="{% url 'detail' question.id %}" class="btn btn-primary">Ответить</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

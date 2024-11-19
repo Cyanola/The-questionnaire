@@ -1,0 +1,40 @@
+{% extends "polls/base.html" %}
+
+{% block content %}
+<h1 class="text-center">{{ question.question_text }}</h1>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <form action="{% url 'vote' question.id %}" method="post">
+            {% csrf_token %}
+
+            {% if has_standard_choices %}
+                <!-- Если есть стандартные варианты ("Да", "Нет") -->
+                <div class="mb-3">
+                    <label class="form-label">Выберите один из вариантов:</label>
+                    {% for choice in question.choice_set.all %}
+                        {% if choice.choice_text %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="choice" id="choice{{ choice.id }}" value="{{ choice.id }}">
+                                <label class="form-check-label" for="choice{{ choice.id }}">{{ choice.choice_text }}</label>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% elif has_custom_answer %}
+                <!-- Если стандартных вариантов нет, но есть кастомные ответы -->
+                <div class="mb-3">
+                    <label class="form-label" for="customChoice">Введите свой ответ:</label>
+                    <input class="form-control" type="text" name="custom_text" placeholder="Ваш ответ...">
+                </div>
+            {% else %}
+                <!-- Если нет ни стандартных вариантов, ни кастомных вариантов -->
+                <div class="alert alert-warning">Нет доступных вариантов для голосования.</div>
+            {% endif %}
+
+            <button type="submit" class="btn btn-primary">Голосовать</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

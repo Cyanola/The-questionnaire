@@ -1,0 +1,29 @@
+{% extends "polls/base.html" %}
+
+{% block content %}
+<h1 class="text-center">{{ question.question_text }}</h1>
+
+<div class="card mt-4">
+    <div class="card-body">
+        <h3>Результаты голосования:</h3>
+        <ul>
+            {% if choices %}
+                {% for choice in choices %}
+                    {% if choice.choice_text %}
+                        <li>
+                            <strong>{{ choice.choice_text }}:</strong> {{ choice.votes }} голосов
+                        </li>
+                    {% endif %}
+                    {% if choice.user_response %}
+                        <ul>
+                            <li><strong>Ответ пользователя:</strong> {{ choice.user_response }}</li>
+                        </ul>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <li>Нет ответов.</li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
