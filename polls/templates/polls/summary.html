@@ -1,0 +1,38 @@
+{% extends "polls/base.html" %}
+
+{% block content %}
+    <h1 class="text-center">Статистика по вопросам</h1>
+
+    {% if results %}
+        {% for result in results %}
+            <h2>{{ result.question.question_text }}</h2>
+
+            {% if result.has_standard_choices %}
+                <h3>Стандартные варианты:</h3>
+                <ul>
+                    {% for choice in result.choices %}
+                        {% if choice.choice_text %}
+                            <li>{{ choice.choice_text }} — {{ choice.votes }} голосов</li>
+                        {% else %}
+                            <!-- Для кастомных вариантов отображаем как "Пользовательский ответ" -->
+                            <li>Пользовательский ответ: {{ choice.user_response }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% if result.has_custom_answer %}
+                <h3>Пользовательские ответы:</h3>
+                <ul>
+                    {% for choice in result.choices %}
+                        {% if not choice.choice_text %}
+                            <li>Пользовательский ответ: {{ choice.user_response }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <p>Нет результатов для отображения.</p>
+    {% endif %}
+{% endblock %}

@@ -5,7 +5,7 @@
 
 <div class="card mt-4">
     <div class="card-body">
-        <form action="{% url 'vote' question.id %}" method="post">
+        <form action="{% url 'polls:vote' question.id %}" method="post">
             {% csrf_token %}
 
             {% if has_standard_choices %}

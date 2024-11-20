@@ -8,10 +8,13 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">{{ question.question_text }}</h5>
-                    <a href="{% url 'detail' question.id %}" class="btn btn-primary">Ответить</a>
+                    <a href="{% url 'polls:detail' question.id %}" class="btn btn-primary">Ответить</a>
                 </div>
             </div>
         </div>
     {% endfor %}
+</div>
+<div class="text-center mt-4">
+    <a href="{% url 'polls:summary' %}" class="btn btn-info btn-lg">Посмотреть статистику</a>
 </div>
 {% endblock %}

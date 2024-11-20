@@ -64,9 +64,30 @@ def vote(request, question_id):
 
     else:
       
-        return HttpResponseRedirect(reverse('results', kwargs={'question_id': question.id}))
+        return HttpResponseRedirect(reverse('polls:results', kwargs={'question_id': question.id}))
+    
+def summary(request):
+    # Получаем все вопросы
+    questions = Question.objects.all()
+    results = []
 
-  
+    # Для каждого вопроса собираем результаты
+    for question in questions:
+        # Получаем все ответы для каждого вопроса
+        standard_choices = question.choice_set.filter(choice_text__isnull=False)
+        has_standard_choices = standard_choices.exists()
+        has_custom_answer = not has_standard_choices
+
+        # Собираем данные по вопросу
+        results.append({
+            'question': question,
+            'choices': question.choice_set.all(),
+            'has_standard_choices': has_standard_choices,
+            'has_custom_answer': has_custom_answer,
+        })
+
+    return render(request, 'polls/summary.html', {'results': results})
+
 
    
 
